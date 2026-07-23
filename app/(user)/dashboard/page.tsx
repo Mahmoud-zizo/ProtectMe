@@ -283,7 +283,7 @@ export default async function UserDashboardPage({
                   className={`flex flex-col gap-5 rounded-[24px] p-7 transition-all duration-200 border-2 ${card.bg}
                     ${
                       isActive
-                        ? "border-slate-900 shadow-[0_8px_30px_rgba(0,0,0,0.12)] scale-[1.02]"
+                        ? "border-white shadow-[0_8px_30px_rgba(0,0,0,0.12)] scale-[1.02]"
                         : "border-transparent hover:-translate-y-1 hover:shadow-xl shadow-lg"
                     }`}
                 >
