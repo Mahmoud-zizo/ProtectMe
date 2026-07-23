@@ -2,9 +2,8 @@ import { getUserRequests } from "./dashboardAction";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { logout } from "../../actions";
-import Image from "next/image";
 import DeleteButton from "./_components/DeleteButton";
+import Sidebar from "./_components/Sidebar";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -250,233 +249,196 @@ export default async function UserDashboardPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
-      <header className="px-4 sm:px-8 py-5 flex items-center justify-between w-full mx-auto bg-white border-b border-slate-200 mb-8">
-        <div className="flex items-center gap-3">
-          <div className=" rounded-lg flex items-center justify-center p-1 bg-white border border-slate-100 shadow-sm">
-            <Image
-              src="/images/protectmedark.jpg"
-              alt="logo"
-              width={40}
-              height={40}
-              className="rounded-[15px] object-cover"
-            />
-          </div>
-          <span className="text-lg sm:text-3xl font-bold tracking-tight text-slate-900">
-            Protect Me
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <form action={logout}>
-            <button
-              type="submit"
-              className="h-9 px-4 rounded-xl text-[13px] font-medium text-slate-600 hover:text-slate-900
-              cursor-pointer border border-slate-200 bg-white hover:bg-slate-50 transition-colors shadow-sm"
-            >
-              Sign out
-            </button>
-          </form>
+    <div className="min-h-screen bg-[#e0e0e0] font-sans text-slate-900">
+      <Sidebar userName={session.user.name} userEmail={session.user.email} />
 
-          <div className="relative group flex items-center gap-2">
-            <span className="text-[14px] font-medium text-slate-700 block max-sm:hidden">
-              {session.user.name?.split(" ")[0] ?? "User"}
-            </span>
-            <div
-              className={`w-9 h-9 rounded-full ${avatarColor(session.user.name ?? "U")}
-              flex items-center justify-center text-[13px] font-bold`}
-            >
-              {initials(session.user.name ?? session.user.email ?? "U")}
+      <main className="md:ml-72 pt-20 md:pt-8 pb-20 px-4 sm:px-8">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h1 className="text-[28px] sm:text-[36px] font-bold tracking-tight mb-2 text-slate-900">
+                Welcome, {session.user.name?.split(" ")[0] ?? "User"}
+              </h1>
+              <p className="text-slate-500 text-[14px] sm:text-[15px]">
+                Manage your bookings and appointments
+              </p>
             </div>
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+            <Link
+              href="/book"
+              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-slate-900/10"
+            >
+              <PlusIcon className="w-4 h-4" />
+              Book New Service
+            </Link>
           </div>
-        </div>
-      </header>
 
-      <div className="px-4 sm:px-8 max-w-7xl mx-auto flex flex-col gap-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 className="text-[28px] sm:text-[36px] font-bold tracking-tight mb-2 text-slate-900">
-              Welcome, {session.user.name?.split(" ")[0] ?? "User"}
-            </h1>
-            <p className="text-slate-500 text-[14px] sm:text-[15px]">
-              Manage your bookings and appointments
-            </p>
+          {/* ── Stat cards ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {statCards.map((card) => {
+              const isActive = activeFilter === card.key;
+              return (
+                <Link
+                  key={card.key}
+                  href={buildHref({ filter: card.key })}
+                  className={`flex flex-col gap-5 rounded-[24px] p-7 transition-all duration-200 border-2 ${card.bg}
+                    ${
+                      isActive
+                        ? "border-slate-900 shadow-[0_8px_30px_rgba(0,0,0,0.12)] scale-[1.02]"
+                        : "border-transparent hover:-translate-y-1 hover:shadow-xl shadow-lg"
+                    }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`${card.iconColor}`}>{card.icon}</div>
+                    <h2
+                      className={`text-[36px] font-bold tracking-tight ${card.textColor}`}
+                    >
+                      {card.value}
+                    </h2>
+                  </div>
+                  <p
+                    className={`text-[14px] font-medium leading-relaxed ${card.labelColor}`}
+                  >
+                    {card.label}
+                  </p>
+                </Link>
+              );
+            })}
           </div>
-          <Link
-            href="/book"
-            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-slate-900/10"
-          >
-            <PlusIcon className="w-4 h-4" />
-            Book New Service
-          </Link>
-        </div>
 
-        {/* ── Stat cards ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {statCards.map((card) => {
-            const isActive = activeFilter === card.key;
-            return (
+          {/* ── Status tabs ── */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {[
+              { key: "ALL", label: "All Bookings" },
+              { key: "PENDING_REVIEW", label: "Pending" },
+              { key: "QUOTED", label: "Quoted" },
+              { key: "CONFIRMED", label: "Scheduled" },
+              { key: "COMPLETED", label: "Completed" },
+              { key: "CANCELLED", label: "Cancelled" },
+            ].map((tab) => (
               <Link
-                key={card.key}
-                href={buildHref({ filter: card.key })}
-                className={`flex flex-col gap-5 rounded-[24px] p-7 transition-all duration-200 border-2 ${card.bg}
+                key={tab.key}
+                href={buildHref({ filter: tab.key === "ALL" ? "" : tab.key })}
+                className={`px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-150 border
                   ${
-                    isActive
-                      ? "border-slate-900 shadow-[0_8px_30px_rgba(0,0,0,0.12)] scale-[1.02]"
-                      : "border-transparent hover:-translate-y-1 hover:shadow-xl shadow-lg"
+                    activeFilter === tab.key
+                      ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                      : "bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-50"
                   }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`${card.iconColor}`}>{card.icon}</div>
-                  <h2
-                    className={`text-[36px] font-bold tracking-tight ${card.textColor}`}
-                  >
-                    {card.value}
-                  </h2>
-                </div>
-                <p
-                  className={`text-[14px] font-medium leading-relaxed ${card.labelColor}`}
-                >
-                  {card.label}
-                </p>
+                {tab.label}
               </Link>
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
-        {/* ── Status tabs ── */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {[
-            { key: "ALL", label: "All Bookings" },
-            { key: "PENDING_REVIEW", label: "Pending" },
-            { key: "QUOTED", label: "Quoted" },
-            { key: "CONFIRMED", label: "Scheduled" },
-            { key: "COMPLETED", label: "Completed" },
-            { key: "CANCELLED", label: "Cancelled" },
-          ].map((tab) => (
-            <Link
-              key={tab.key}
-              href={buildHref({ filter: tab.key === "ALL" ? "" : tab.key })}
-              className={`px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-150 border
-                ${
-                  activeFilter === tab.key
-                    ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                    : "bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-50"
-                }`}
-            >
-              {tab.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* ── Table ── */}
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-          <div className="w-full">
-            <div className="flex flex-col">
-              <div
-                className="hidden md:grid grid-cols-[2fr_1.5fr_1fr_1.5fr_1fr] gap-4 px-6 py-4
-                bg-slate-50/80 text-[14px] font-semibold text-slate-500 items-center border-b border-slate-200"
-              >
-                <span className="text-left">Vehicle</span>
-                <span className="text-left">Date</span>
-                <span className="text-left">Status</span>
-                <span className="text-left">Details</span>
-                <span className="text-right">Actions</span>
-              </div>
-
-              {filtered.length === 0 ? (
-                <div className="py-20 text-center text-slate-500 text-[14px] bg-white">
-                  No appointments found for this filter.
+          {/* ── Table ── */}
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="w-full">
+              <div className="flex flex-col">
+                <div
+                  className="hidden md:grid grid-cols-[2fr_1.5fr_1fr_1.5fr_1fr] gap-4 px-6 py-4
+                  bg-slate-50/80 text-[14px] font-semibold text-slate-500 items-center border-b border-slate-200"
+                >
+                  <span className="text-left">Vehicle</span>
+                  <span className="text-left">Date</span>
+                  <span className="text-left">Status</span>
+                  <span className="text-left">Details</span>
+                  <span className="text-right">Actions</span>
                 </div>
-              ) : (
-                <div className="flex flex-col">
-                  {filtered.map((req, i) => (
-                    <div
-                      key={req.id}
-                      className={`flex flex-col md:grid md:grid-cols-[2fr_1.5fr_1fr_1.5fr_1fr] gap-y-3 md:gap-4 px-6 py-5
-                        items-start md:items-center transition-colors duration-150 hover:bg-slate-50/80
-                        ${
-                          i !== filtered.length - 1
-                            ? "border-b border-slate-100"
-                            : ""
-                        }`}
-                    >
-                      {/* Column 1: Client/Vehicle */}
-                      <div className="flex items-center gap-4 min-w-0 w-full">
-                        <div
-                          className={`w-10 h-10 rounded-full bg-slate-100 text-slate-600
-                          flex items-center justify-center text-[14px] font-bold shrink-0 border border-slate-200`}
-                        >
-                          {initials(req.carMake)}
+
+                {filtered.length === 0 ? (
+                  <div className="py-20 text-center text-slate-500 text-[14px] bg-white">
+                    No appointments found for this filter.
+                  </div>
+                ) : (
+                  <div className="flex flex-col">
+                    {filtered.map((req, i) => (
+                      <div
+                        key={req.id}
+                        className={`flex flex-col md:grid md:grid-cols-[2fr_1.5fr_1fr_1.5fr_1fr] gap-y-3 md:gap-4 px-6 py-5
+                          items-start md:items-center transition-colors duration-150 hover:bg-slate-50/80
+                          ${
+                            i !== filtered.length - 1
+                              ? "border-b border-slate-100"
+                              : ""
+                          }`}
+                      >
+                        {/* Column 1: Client/Vehicle */}
+                        <div className="flex items-center gap-4 min-w-0 w-full">
+                          <div
+                            className={`w-10 h-10 rounded-full bg-slate-100 text-slate-600
+                            flex items-center justify-center text-[14px] font-bold shrink-0 border border-slate-200`}
+                          >
+                            {initials(req.carMake)}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[15px] md:text-[14px] font-semibold md:font-medium text-slate-900 truncate">
+                              {req.carMake} {req.carModel}
+                            </p>
+                            <p className="text-[13px] md:text-[12px] text-slate-500 truncate mt-0.5">
+                              {req.carYear} • {req.branch?.name ?? "No branch"}
+                            </p>
+                          </div>
+                          <div className="md:hidden flex shrink-0">
+                            <StatusBadge status={req.status} />
+                          </div>
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-[15px] md:text-[14px] font-semibold md:font-medium text-slate-900 truncate">
-                            {req.carMake} {req.carModel}
+
+                        {/* Column 2: Date */}
+                        <div className="flex flex-col justify-center w-full md:w-auto mt-2 md:mt-0 pl-14 md:pl-0">
+                          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1 md:hidden">
+                            Date
+                          </span>
+                          <p className="text-[14px] font-medium text-slate-700">
+                            {req.slot
+                              ? formatDate(req.slot.date)
+                              : formatDate(req.createdAt)}
                           </p>
-                          <p className="text-[13px] md:text-[12px] text-slate-500 truncate mt-0.5">
-                            {req.carYear} • {req.branch?.name ?? "No branch"}
+                          <p className="text-[12px] text-slate-500 mt-0.5">
+                            {req.slot ? "Scheduled" : "Created"}
                           </p>
                         </div>
-                        <div className="md:hidden flex shrink-0">
+
+                        {/* Column 3: Status (Desktop only) */}
+                        <div className="hidden md:flex justify-start">
                           <StatusBadge status={req.status} />
                         </div>
-                      </div>
 
-                      {/* Column 2: Date */}
-                      <div className="flex flex-col justify-center w-full md:w-auto mt-2 md:mt-0 pl-14 md:pl-0">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1 md:hidden">
-                          Date
-                        </span>
-                        <p className="text-[14px] font-medium text-slate-700">
-                          {req.slot
-                            ? formatDate(req.slot.date)
-                            : formatDate(req.createdAt)}
-                        </p>
-                        <p className="text-[12px] text-slate-500 mt-0.5">
-                          {req.slot ? "Scheduled" : "Created"}
-                        </p>
-                      </div>
-
-                      {/* Column 3: Status (Desktop only) */}
-                      <div className="hidden md:flex justify-start">
-                        <StatusBadge status={req.status} />
-                      </div>
-
-                      {/* Column 4: Details */}
-                      <div className="flex flex-col justify-center w-full md:w-auto mt-2 md:mt-0 pl-14 md:pl-0">
-                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1 md:hidden">
-                          Services
-                        </span>
-                        <p className="text-[13px] text-slate-700 font-medium truncate max-w-full md:max-w-50">
-                          {req.services.map((s) => s.service.name).join(", ")}
-                        </p>
-                        {req.quote && (
-                          <p className="text-[12px] text-slate-500 mt-0.5 font-semibold">
-                            EGP {req.quote.price}
+                        {/* Column 4: Details */}
+                        <div className="flex flex-col justify-center w-full md:w-auto mt-2 md:mt-0 pl-14 md:pl-0">
+                          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1 md:hidden">
+                            Services
+                          </span>
+                          <p className="text-[13px] text-slate-700 font-medium truncate max-w-full md:max-w-50">
+                            {req.services.map((s) => s.service.name).join(", ")}
                           </p>
-                        )}
-                      </div>
+                          {req.quote && (
+                            <p className="text-[12px] text-slate-500 mt-0.5 font-semibold">
+                              EGP {req.quote.price}
+                            </p>
+                          )}
+                        </div>
 
-                      {/* Column 5: Actions */}
-                      <div className="flex items-center gap-3 justify-end text-[13px] w-full md:w-auto mt-5 md:mt-0 pt-4 md:pt-0 border-t border-slate-100 md:border-none">
-                        {["CANCELLED", "COMPLETED"].includes(req.status) && (
-                          <DeleteButton requestId={req.id} />
-                        )}
-                        <Link
-                          href={`/requests/${req.id}`}
-                          className="font-semibold text-slate-600 hover:text-slate-900 transition-colors whitespace-nowrap bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-sm hover:bg-slate-50 w-full md:w-auto text-center"
-                        >
-                          View Details
-                        </Link>
+                        {/* Column 5: Actions */}
+                        <div className="flex items-center gap-3 justify-end text-[13px] w-full md:w-auto mt-5 md:mt-0 pt-4 md:pt-0 border-t border-slate-100 md:border-none">
+                          {["CANCELLED", "COMPLETED"].includes(req.status) && (
+                            <DeleteButton requestId={req.id} />
+                          )}
+                          <Link
+                            href={`/requests/${req.id}`}
+                            className="font-semibold text-slate-600 hover:text-slate-900 transition-colors whitespace-nowrap bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-sm hover:bg-slate-50 w-full md:w-auto text-center"
+                          >
+                            View Details
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
