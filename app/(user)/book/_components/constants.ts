@@ -10,8 +10,8 @@ export const STEPS = [
 ];
 
 export const STEP_SUBTITLES: Record<number, string> = {
-  1: "Tell us who you are and where you're located",
-  2: "Enter your vehicle details",
+  1: "Enter your details",
+  2: "Enter your car details",
   3: "Choose a branch, services, and pick an available date",
   4: "Review your booking before submitting",
 };

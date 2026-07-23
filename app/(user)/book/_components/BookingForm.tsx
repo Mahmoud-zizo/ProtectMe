@@ -145,16 +145,14 @@ export default function BookingForm({
       >
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white border border-black/5 rounded-[1.25rem] flex items-center justify-center shadow-sm mb-5 sm:mb-6 p-3">
-            <Image
-              src="/images/protectme.png"
-              alt="Protect Me"
-              width={200}
-              height={200}
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#16181B] tracking-tight mb-2 sm:mb-3">
+          <Image
+            src="/images/protectmedark.jpg"
+            alt="logo"
+            width={80}
+            height={80}
+            className="rounded-2xl object-cover"
+          />
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#16181B] tracking-tight mb-2 mt-8 sm:mb-3">
             Book a Service
           </h1>
           <p className="text-sm sm:text-base lg:text-lg font-medium text-gray-500 mb-6 sm:mb-8">
