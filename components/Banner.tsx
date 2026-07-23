@@ -18,15 +18,14 @@ export default function CtaBanner() {
         <div className="pointer-events-none absolute -bottom-28 -left-16 h-75 w-75 rounded-full bg-[#F5C518]/10 blur-2xl" />
 
         <p className="relative z-10 text-center text-2xl font-black leading-relaxed tracking-tight text-gray-700 sm:text-3xl max-w-xl">
-          Protect it before it&apos;s{" "}
-          <span className="text-gray-700">too late</span>
+          keep your vehicle looking brand new
         </p>
 
         <Link href={"/book"}>
           <button
             className="
             relative z-10 inline-flex items-center gap-2 rounded-full bg-[#F5C518] px-9 py-3.5 
-            text-sm font-bold text-[#16181B] tracking-wide
+            text-medium font-bold text-[#16181B] tracking-wide
             shadow-[0_4px_16px_rgba(245,197,24,0.3)] transition-all duration-200
             hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(245,197,24,0.4)]
             active:translate-y-0 cursor-pointer

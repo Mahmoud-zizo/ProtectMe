@@ -113,11 +113,11 @@ export default function Footer() {
               {/* Phone & Email Row */}
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <a
-                  href="tel:+20 1110 700 700"
-                  className="flex items-center gap-2 bg-white border text-[#16181B] px-5 py-2.5 rounded-full font-bold hover:bg-[#e0b512] transition-all shadow-[0_4px_16px_rgba(245,197,24,0.3)] text-sm"
+                  href="tel:17770"
+                  className="flex items-center gap-2 bg-white border text-[#16181B] px-5 py-2.5 rounded-full font-bold hover:bg-[#e0b512] transition-all shadow-[0_4px_16px_rgba(245,197,24,0.3)] text-medium"
                 >
                   <Phone className="w-4 h-4" />
-                  +20 1110 700 700
+                  17770
                 </a>
 
                 <a

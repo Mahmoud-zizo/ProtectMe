@@ -131,7 +131,7 @@ export default function ProtectMeInNumbers() {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="relative  w-full mt- overflow-hidden px-4 sm:px-6 py-20 sm:py-28"
+      className="relative  w-full mt-10 overflow-hidden px-4 sm:px-6 py-20 sm:py-28"
     >
       {/* Section background image */}
       <Image

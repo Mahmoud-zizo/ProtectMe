@@ -5,7 +5,7 @@ import { ShieldCheck, BadgeCheck, Sparkles, Handshake } from "lucide-react";
 export const ABOUT_CARDS = [
   {
     title: "Certified Expertise",
-    desc: "As a 3M Authorized Center, we apply trusted technologies with precision and care.",
+    desc: "As Professional Center, we apply trusted technologies with precision and care.",
     icon: BadgeCheck,
   },
   {
