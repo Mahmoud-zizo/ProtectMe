@@ -13,14 +13,14 @@ const CARDS = [
     title: "PPF",
     description:
       "Shield your car's paint from chips, scratches, and road debris with our ultra-durable PPF.",
-    image: "/images/ppf2.jpg",
+    image: "/images/ppf1.jpg",
   },
   {
     id: 2,
     title: "Nano Ceramic Coating",
     description:
       "Flexible long-term protection with extreme resistance to UV radiation, chemicals, and aggressive elements.",
-    image: "/images/ppf1.jpg",
+    image: "/images/ppf2.jpg",
   },
   {
     id: 3,

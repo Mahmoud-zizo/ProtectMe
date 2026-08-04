@@ -18,7 +18,7 @@ export default function CtaBanner() {
         <div className="pointer-events-none absolute -bottom-28 -left-16 h-75 w-75 rounded-full bg-[#F5C518]/10 blur-2xl" />
 
         <p className="relative z-10 text-center text-2xl font-black leading-relaxed tracking-tight text-gray-700 sm:text-3xl max-w-xl">
-          keep your vehicle looking brand new
+          keep your vehicle looking brand new 
         </p>
 
         <Link href={"/book"}>
