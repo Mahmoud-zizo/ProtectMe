@@ -244,7 +244,8 @@ export default async function UserDashboardPage({
       if (v) p.set(k, v);
       else p.delete(k);
     }
-    return p.toString() ? `/dashboard?${p}` : "/dashboard";
+    const query = p.toString();
+    return `/dashboard${query ? `?${query}` : ""}#results`;
   }
 
   return (
@@ -330,7 +331,10 @@ export default async function UserDashboardPage({
           </div>
 
           {/* ── Table ── */}
-          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+          <div
+            id="results"
+            className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+          >
             <div className="w-full">
               <div className="flex flex-col">
                 <div
