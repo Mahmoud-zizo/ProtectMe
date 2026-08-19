@@ -273,30 +273,30 @@ export default async function UserDashboardPage({
           </div>
 
           {/* ── Stat cards ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {statCards.map((card) => {
               const isActive = activeFilter === card.key;
               return (
                 <Link
                   key={card.key}
                   href={buildHref({ filter: card.key })}
-                  className={`flex flex-col gap-5 rounded-[24px] p-7 transition-all duration-200 border-2 ${card.bg}
+                  className={`flex flex-col gap-2 sm:gap-5 rounded-2xl sm:rounded-[24px] p-4 sm:p-7 transition-all duration-200 border-2 ${card.bg}
                     ${
                       isActive
                         ? "border-white shadow-[0_8px_30px_rgba(0,0,0,0.12)] scale-[1.02]"
                         : "border-transparent hover:-translate-y-1 hover:shadow-xl shadow-lg"
                     }`}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 sm:gap-4">
                     <div className={`${card.iconColor}`}>{card.icon}</div>
                     <h2
-                      className={`text-[36px] font-bold tracking-tight ${card.textColor}`}
+                      className={`text-[22px] sm:text-[36px] font-bold tracking-tight ${card.textColor}`}
                     >
                       {card.value}
                     </h2>
                   </div>
                   <p
-                    className={`text-[14px] font-medium leading-relaxed ${card.labelColor}`}
+                    className={`text-[12px] sm:text-[14px] font-medium leading-snug sm:leading-relaxed ${card.labelColor}`}
                   >
                     {card.label}
                   </p>
