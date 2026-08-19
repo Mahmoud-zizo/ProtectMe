@@ -50,37 +50,64 @@ export default function ConfirmDialog({
 
   const heading = theme === "dark" ? "text-white" : "text-slate-900";
   const body = theme === "dark" ? "text-slate-400" : "text-slate-500";
+  const closeBtn =
+    theme === "dark"
+      ? "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+      : "text-slate-300 hover:text-slate-500 hover:bg-slate-50";
 
   const cancelBtn =
     theme === "dark"
-      ? "border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
-      : "border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-800";
+      ? "border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white focus-visible:ring-white/20"
+      : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-800 focus-visible:ring-slate-300";
 
   // ── Variant tokens ──────────────────────────────────────────────────────────
   const confirmBtn =
     variant === "danger"
-      ? "bg-rose-500 hover:bg-rose-400 shadow-lg shadow-rose-500/20 text-white"
-      : "bg-green-500 hover:bg-green-400 shadow-lg shadow-green-500/20 text-white";
+      ? "bg-linear-to-r from-rose-500 to-rose-600 hover:brightness-105 shadow-lg shadow-rose-500/25 text-white focus-visible:ring-rose-300"
+      : "bg-linear-to-r from-teal-500 to-blue-600 hover:brightness-105 shadow-lg shadow-teal-500/25 text-white focus-visible:ring-teal-300";
 
   const iconBg =
     variant === "danger"
-      ? "bg-rose-500/10 text-rose-400"
-      : "bg-green-500/10 text-green-400";
+      ? "bg-rose-50 text-rose-500 ring-8 ring-rose-500/5"
+      : "bg-teal-50 text-teal-600 ring-8 ring-teal-500/5";
+
+  const panelShadow =
+    variant === "danger" ? "shadow-rose-900/10" : "shadow-slate-900/10";
 
   const dialog = (
     <div
-      className="fixed inset-0 z-9999 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-150"
       onClick={onCancel}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" />
 
       {/* Panel */}
       <div
-        className={`relative w-full max-w-sm rounded-3xl shadow-2xl p-6
-          animate-in fade-in zoom-in-95 duration-200 ${panel}`}
+        className={`relative w-full max-w-sm rounded-3xl shadow-2xl ${panelShadow} p-7
+          animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200 ${panel}`}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Close */}
+        <button
+          onClick={onCancel}
+          disabled={loading}
+          aria-label="Close"
+          className={`absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center
+            transition-colors duration-150 disabled:opacity-40 ${closeBtn}`}
+        >
+          <svg
+            className="w-3.5 h-3.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+
         {/* Icon */}
         <div
           className={`w-12 h-12 rounded-2xl ${iconBg} flex items-center justify-center mb-4`}
@@ -116,15 +143,20 @@ export default function ConfirmDialog({
           )}
         </div>
 
-        <h3 className={`text-base font-bold mb-1 ${heading}`}>{title}</h3>
+        <h3 className={`text-base font-bold tracking-tight mb-1.5 ${heading}`}>
+          {title}
+        </h3>
         <p className={`text-sm leading-relaxed mb-6 ${body}`}>{description}</p>
 
-        <div className="flex gap-3">
+        <div className="flex gap-2.5">
           <button
             onClick={onCancel}
             disabled={loading}
             className={`flex-1 py-2.5 rounded-xl text-sm font-semibold
-              transition-all duration-150 disabled:opacity-50 ${cancelBtn}`}
+              transition-all duration-150 disabled:opacity-50
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+              ${theme === "dark" ? "focus-visible:ring-offset-[#161a1f]" : "focus-visible:ring-offset-white"}
+              ${cancelBtn}`}
           >
             {cancelLabel}
           </button>
@@ -134,7 +166,10 @@ export default function ConfirmDialog({
             disabled={loading}
             className={`flex-1 py-2.5 rounded-xl text-sm font-bold
               transition-all duration-150 active:scale-[0.98] disabled:opacity-60
-              disabled:cursor-not-allowed flex items-center justify-center gap-2
+              disabled:cursor-not-allowed disabled:active:scale-100
+              flex items-center justify-center gap-2
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+              ${theme === "dark" ? "focus-visible:ring-offset-[#161a1f]" : "focus-visible:ring-offset-white"}
               ${confirmBtn}`}
           >
             {loading ? (

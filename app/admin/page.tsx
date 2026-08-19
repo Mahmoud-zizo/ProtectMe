@@ -90,24 +90,23 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
-
 function HourGlassIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className || "w-8 h-8"}
-      viewBox="0 0 24 24"
       fill="none"
+      viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M21 3H3M21 21H3M10 21V16.3262C10 15.7958 10.2107 15.2872 10.5858 14.9121L12 13.5L13.4142 14.9121C13.7893 15.2872 14 15.7958 14 16.3262V21M14 3V7.67376C14 8.20419 13.7893 8.71281 13.4142 9.08787L12 10.5L10.5858 9.08787C10.2107 8.71281 10 8.20419 10 7.67376V3" />
-      <path d="M10 16H14" />
-      <path d="M10 8H14" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 12V7m0 5l3.5 2.5" />
     </svg>
   );
 }
+
 function CalendarIcon({ className }: { className?: string }) {
   return (
     <svg
