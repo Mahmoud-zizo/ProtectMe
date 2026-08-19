@@ -101,7 +101,7 @@ export default function RequestActions({ requestId, status }: Props) {
           </p>
         )}
 
-        <div className="flex gap-2.5">
+        <div className="flex flex-col sm:flex-row gap-2.5">
           {canConfirm && (
             <button
               onClick={() => {
@@ -110,7 +110,7 @@ export default function RequestActions({ requestId, status }: Props) {
               }}
               className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 bg-linear-to-r from-teal-500 to-blue-600 text-white text-sm font-bold
                 rounded-xl shadow-sm shadow-teal-500/20 hover:opacity-90 active:scale-[0.98]
-                transition-all duration-200 cursor-pointer"
+                transition-all duration-200"
             >
               <CheckIcon className="w-4 h-4" />
               Confirm Appointment
@@ -123,10 +123,9 @@ export default function RequestActions({ requestId, status }: Props) {
                 setError("");
                 setDialog("cancel");
               }}
-              className={`inline-flex items-center justify-center gap-1.5 py-2.5 bg-white border border-slate-200 text-slate-500 text-sm font-bold
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 bg-white border border-slate-200 text-slate-500 text-sm font-bold
                 rounded-xl hover:border-rose-200 hover:text-rose-500 hover:bg-rose-50
-                active:scale-[0.98] transition-all duration-200 cursor-pointer
-                ${canConfirm ? "px-4" : "flex-1"}`}
+                active:scale-[0.98] transition-all duration-200"
             >
               <XIcon className="w-4 h-4" />
               Cancel Booking
