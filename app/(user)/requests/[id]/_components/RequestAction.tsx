@@ -125,7 +125,7 @@ export default function RequestActions({ requestId, status }: Props) {
               }}
               className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 bg-white border border-slate-200 text-slate-500 text-sm font-bold
                 rounded-xl hover:border-rose-200 hover:text-rose-500 hover:bg-rose-50
-                active:scale-[0.98] transition-all duration-200"
+                active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               <XIcon className="w-4 h-4" />
               Cancel Booking
