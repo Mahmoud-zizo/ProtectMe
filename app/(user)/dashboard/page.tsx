@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import DeleteButton from "./_components/DeleteButton";
 import Sidebar from "./_components/Sidebar";
+import ViewDetailsButton from "./_components/ViewDetailsButton";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -426,12 +427,7 @@ export default async function UserDashboardPage({
                           {["CANCELLED", "COMPLETED"].includes(req.status) && (
                             <DeleteButton requestId={req.id} />
                           )}
-                          <Link
-                            href={`/requests/${req.id}`}
-                            className="font-semibold text-slate-600 hover:text-slate-900 transition-colors whitespace-nowrap bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-sm hover:bg-slate-50 w-full md:w-auto text-center"
-                          >
-                            View Details
-                          </Link>
+                          <ViewDetailsButton requestId={req.id} />
                         </div>
                       </div>
                     ))}
