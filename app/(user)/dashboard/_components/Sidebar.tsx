@@ -146,7 +146,7 @@ const NAV_LINKS = [
     href: "/dashboard",
     label: "Dashboard",
     icon: CalendarIcon,
-    accent: "#4fa8a5ff",
+    accent: "#3d908eff",
   },
   {
     href: "/book",
@@ -171,11 +171,11 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Mobile top bar — floating glass pill, matching the reference shape */}
+      {/* Mobile top bar — floating glass pill with increased vertical padding */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 px-3 pt-3">
         <div
-          className="h-14 rounded-full flex items-center justify-between px-3
-             backdrop-blur-xl backdrop-saturate-150
+          className="h-16 rounded-full flex items-center justify-between px-4
+            bg-white/55 backdrop-blur-xl backdrop-saturate-150
             border border-white/70
             shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_8px_24px_-8px_rgba(15,23,42,0.25)]"
         >
@@ -189,16 +189,14 @@ export default function Sidebar({
           </button>
 
           <div className="flex items-center gap-2">
-            <div className="">
-              <Image
-                src="/images/protectmedark.jpg"
-                alt="logo"
-                width={24}
-                height={24}
-                className="rounded-[6px] object-cover block"
-              />
-            </div>
-            <span className="text-[14px] font-bold tracking-tight text-slate-900">
+            <Image
+              src="/images/protectmedark.jpg"
+              alt="logo"
+              width={28}
+              height={28}
+              className="rounded-lg object-cover block"
+            />
+            <span className="text-[18px] font-bold tracking-tight text-slate-900">
               Protect Me
             </span>
           </div>
@@ -225,10 +223,11 @@ export default function Sidebar({
       {/* Sidebar — glass panel with a soft gradient right border */}
       <aside
         className={`fixed top-0 left-0 h-screen w-72 flex flex-col z-50
-          bg-white/70 backdrop-blur-xl backdrop-saturate-150
+          backdrop-saturate-150
           shadow-[8px_0_30px_-12px_rgba(15,23,42,0.18)]
-          transition-transform duration-300 ease-out
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+          transition-all duration-300 ease-out
+          md:bg-transparent
+          ${isOpen ? "translate-x-0 bg-[#e0e0e0]" : "-translate-x-full bg-transparent"} md:translate-x-0`}
       >
         {/* Gradient right border */}
         <div
@@ -251,15 +250,13 @@ export default function Sidebar({
         {/* Logo */}
         <div className="flex items-center justify-between px-6 py-6">
           <div className="flex items-center gap-3">
-            <div className="rounded-2xl p-[3px] bg-gradient-to-br from-[#784A8E] via-[#8EC8C6] to-[#FC8C64] shadow-sm">
-              <Image
-                src="/images/protectmedark.jpg"
-                alt="logo"
-                width={38}
-                height={38}
-                className="rounded-[13px] object-cover block"
-              />
-            </div>
+            <Image
+              src="/images/protectmedark.jpg"
+              alt="logo"
+              width={42}
+              height={42}
+              className="rounded-xl object-cover block"
+            />
             <div>
               <span className="block text-lg font-bold tracking-tight text-slate-900 leading-tight">
                 Protect Me
@@ -280,8 +277,8 @@ export default function Sidebar({
 
         <div className="mx-6 h-px bg-slate-200/70" />
 
-        {/* Nav */}
-        <nav className="flex-1 px-4 py-6 flex flex-col gap-1.5 overflow-y-auto">
+        {/* Nav with increased padding (py-3) */}
+        <nav className="flex-1 px-4 py-6 flex flex-col gap-2 overflow-y-auto">
           <p className="px-4 mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">
             Menu
           </p>
@@ -292,7 +289,7 @@ export default function Sidebar({
                 key={href}
                 href={href}
                 onClick={() => setIsOpen(false)}
-                className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-2xl text-[14px] font-semibold transition-all duration-150
+                className={`group relative flex items-center gap-3 px-3.5 py-3 rounded-2xl text-[14px] font-semibold transition-all duration-150
                   ${active ? "text-white shadow-md" : "text-slate-600 hover:bg-white/60 hover:text-slate-900"}`}
                 style={
                   active
@@ -323,7 +320,7 @@ export default function Sidebar({
         <div className="px-4 pb-5 pt-3 flex flex-col gap-3">
           <div className="mx-2 h-px bg-slate-200/70 mb-1" />
 
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-white/60 border border-white/70">
+          <div className="flex items-center gap-3 px-3.5 py-3 rounded-2xl bg-white/60 border border-white/70">
             <div
               className={`relative w-9 h-9 rounded-full ${avatarCls} flex items-center justify-center text-[13px] font-bold shrink-0 ring-2 ring-white`}
             >
@@ -343,7 +340,7 @@ export default function Sidebar({
           <form action={logout}>
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl text-[13px] font-semibold
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-[13px] font-semibold
                 text-slate-500 hover:text-rose-600 cursor-pointer border border-white/70 bg-white/60
                 hover:bg-rose-50 hover:border-rose-200 transition-colors"
             >
